@@ -1,0 +1,28 @@
+{
+  "name": "sangam-portal",
+  "version": "1.0.0",
+  "description": "Sangam — Academia-Industry Collaboration Portal Full-Stack Server",
+  "main": "backend/src/server.js",
+  "scripts": {
+    "start": "node backend/src/server.js",
+    "dev": "node --watch backend/src/server.js",
+    "test": "node test/api.test.js"
+  },
+  "keywords": [
+    "academia",
+    "industry",
+    "collaboration",
+    "portal",
+    "skills",
+    "internships",
+    "sangam"
+  ],
+  "author": "Sangam Team",
+  "license": "MIT",
+  "dependencies": {
+    "better-sqlite3": "^13.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^16.6.1",
+    "express": "^4.22.2"
+  }
+}
