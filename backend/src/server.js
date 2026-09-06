@@ -38,12 +38,15 @@ app.use("/api", apiRoutes);
 const publicDir = path.resolve(__dirname, "../../public");
 app.use(express.static(publicDir));
 
-// Fallback for SPA routing - serve index.html for unknown non-API routes
+// Fallback for SPA routing - serve the app shell for unknown non-API routes.
+// index.html is the marketing landing page and is served directly by
+// express.static above; every other unmatched route falls back to the
+// React app in app.html (e.g. deep links, page refreshes inside the portal).
 app.get("*", (req, res, next) => {
   if (req.path.startsWith("/api")) {
     return res.status(404).json({ success: false, message: "API endpoint not found" });
   }
-  res.sendFile(path.join(publicDir, "index.html"), (err) => {
+  res.sendFile(path.join(publicDir, "app.html"), (err) => {
     if (err) {
       next(err);
     }
