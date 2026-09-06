@@ -1,0 +1,659 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Sangam — Academia–Industry Collaboration Portal</title>
+<meta name="description" content="Sangam bridges university curricula and real-world tech hiring with role-gated experiences for students, recruiters, deans and faculty.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237C3AED' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0f172b;
+    --academia:#7c3aed;
+    --academia-deep:#5b21b6;
+    --industry:#f59e0b;
+    --industry-deep:#b45309;
+    --canvas:#faf9f7;
+    --surface:#ffffff;
+    --line:#e2e8f0;
+    --muted:#64748b;
+    --radius-s:10px;
+    --radius-m:16px;
+    --maxw:1180px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important;}
+  }
+  body{
+    margin:0;
+    font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+    background:var(--canvas);
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+  }
+  img,svg{display:block;max-width:100%;}
+  a{color:inherit;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px;}
+  :focus-visible{outline:2.5px solid var(--academia);outline-offset:3px;}
+
+  /* ---------- NAV ---------- */
+  header.nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(250,249,247,0.86);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;height:72px;}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;letter-spacing:-0.01em;text-decoration:none;}
+  .brand svg{width:22px;height:22px;color:var(--academia);}
+  .nav-links{display:flex;align-items:center;gap:34px;list-style:none;margin:0;padding:0;}
+  .nav-links a{text-decoration:none;font-size:14.5px;font-weight:500;color:var(--ink);opacity:0.72;transition:opacity .15s;}
+  .nav-links a:hover{opacity:1;}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    font-family:inherit;font-weight:700;font-size:14.5px;
+    padding:11px 20px;border-radius:999px;border:1px solid transparent;
+    cursor:pointer;text-decoration:none;transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+  }
+  .btn-primary{background:var(--ink);color:#fff;}
+  .btn-primary:hover{transform:translateY(-1.5px);box-shadow:0 10px 24px -8px rgba(15,23,43,0.45);}
+  .btn-ghost{border-color:var(--line);background:transparent;color:var(--ink);}
+  .btn-ghost:hover{border-color:var(--ink);}
+  .btn-sm{padding:8px 16px;font-size:13.5px;}
+  .nav-cta{display:flex;align-items:center;gap:14px;}
+  .nav-toggle{display:none;}
+
+  /* ---------- HERO ---------- */
+  .hero{position:relative;padding:96px 0 40px;overflow:hidden;}
+  .hero-grid{display:grid;grid-template-columns:1.05fr 0.95fr;gap:56px;align-items:center;}
+  .eyebrow-line{display:flex;align-items:center;gap:10px;margin-bottom:22px;}
+  .eyebrow-line .dot{width:7px;height:7px;border-radius:50%;background:var(--academia);}
+  .eyebrow-line .dot.amber{background:var(--industry);}
+  .eyebrow-line span{font-size:13.5px;color:var(--muted);font-weight:600;}
+  h1.hero-head{
+    font-size:clamp(34px,4.6vw,54px);
+    line-height:1.06;
+    letter-spacing:-0.025em;
+    font-weight:800;
+    margin:0 0 22px;
+  }
+  h1.hero-head em{font-style:normal;color:var(--academia);}
+  .hero p.lede{font-size:18px;line-height:1.6;color:var(--muted);max-width:520px;margin:0 0 34px;}
+  .hero-ctas{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:38px;}
+  .hero-meta{display:flex;gap:28px;flex-wrap:wrap;}
+  .hero-meta div{display:flex;flex-direction:column;gap:2px;}
+  .hero-meta .n{font-size:20px;font-weight:800;letter-spacing:-0.02em;}
+  .hero-meta .l{font-size:12.5px;color:var(--muted);}
+
+  .confluence-visual{position:relative;height:460px;}
+  .confluence-visual svg{width:100%;height:100%;}
+  .thread{fill:none;stroke-width:3;stroke-linecap:round;}
+  .thread-a{stroke:var(--academia);}
+  .thread-i{stroke:var(--industry);}
+  .thread-m{stroke:var(--ink);stroke-width:3.5;}
+  .draw{stroke-dasharray:900;stroke-dashoffset:900;animation:draw 2.1s cubic-bezier(.65,0,.35,1) forwards;}
+  .draw-delay{animation-delay:.15s;}
+  @keyframes draw{to{stroke-dashoffset:0;}}
+  .node-label{font-size:12.5px;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;}
+  .node-label.a{fill:var(--academia-deep);}
+  .node-label.i{fill:var(--industry-deep);}
+  .node-tag{font-size:11px;fill:var(--muted);font-weight:600;}
+  .confluence-point{fill:var(--ink);}
+  .confluence-ring{fill:none;stroke:var(--ink);stroke-width:1;opacity:0.18;}
+
+  /* ---------- STAT STRIP ---------- */
+  .stat-strip{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--surface);}
+  .stat-strip .wrap{display:grid;grid-template-columns:repeat(4,1fr);}
+  .stat{padding:26px 24px;border-left:1px solid var(--line);}
+  .stat:first-child{border-left:none;}
+  .stat .n{font-size:26px;font-weight:800;letter-spacing:-0.02em;}
+  .stat .l{font-size:13px;color:var(--muted);margin-top:4px;line-height:1.4;}
+
+  /* ---------- SECTION SHELL ---------- */
+  section{padding:100px 0;}
+  .section-head{max-width:620px;margin-bottom:56px;}
+  .section-head h2{font-size:clamp(26px,3vw,36px);letter-spacing:-0.02em;font-weight:800;margin:0 0 14px;line-height:1.15;}
+  .section-head p{font-size:16.5px;line-height:1.65;color:var(--muted);margin:0;}
+
+  /* ---------- STREAMS ---------- */
+  .streams{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--line);border:1px solid var(--line);border-radius:var(--radius-m);overflow:hidden;}
+  .stream{background:var(--surface);padding:40px;}
+  .stream h3{display:flex;align-items:center;gap:10px;font-size:19px;font-weight:800;margin:0 0 14px;}
+  .stream h3 .swatch{width:11px;height:11px;border-radius:3px;}
+  .stream.academia h3 .swatch{background:var(--academia);}
+  .stream.industry h3 .swatch{background:var(--industry);}
+  .stream p{color:var(--muted);font-size:15px;line-height:1.65;margin:0 0 22px;}
+  .stream ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px;}
+  .stream li{font-size:14.5px;line-height:1.5;padding-left:20px;position:relative;}
+  .stream li::before{content:'';position:absolute;left:0;top:7px;width:6px;height:6px;border-radius:50%;}
+  .stream.academia li::before{background:var(--academia);}
+  .stream.industry li::before{background:var(--industry);}
+  .confluence-note{text-align:center;margin-top:28px;font-size:15px;color:var(--ink);font-weight:600;}
+  .confluence-note span{color:var(--academia);}
+
+  /* ---------- PERSONA EXPLORER ---------- */
+  .persona-tabs{display:flex;gap:6px;border-bottom:1px solid var(--line);margin-bottom:40px;overflow-x:auto;}
+  .persona-tab{
+    background:none;border:none;font-family:inherit;cursor:pointer;
+    padding:14px 4px;margin-right:34px;font-size:15px;font-weight:700;color:var(--muted);
+    border-bottom:2.5px solid transparent;white-space:nowrap;transition:color .15s;
+  }
+  .persona-tab.active{color:var(--ink);border-color:var(--academia);}
+  .persona-panel{display:none;grid-template-columns:1fr 1fr;gap:52px;align-items:start;}
+  .persona-panel.active{display:grid;}
+  .persona-panel .who{font-size:13px;color:var(--muted);font-weight:600;margin-bottom:10px;}
+  .persona-panel h3{font-size:24px;font-weight:800;letter-spacing:-0.015em;margin:0 0 14px;}
+  .persona-panel .feat-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:16px;}
+  .persona-panel .feat-list li{display:flex;gap:12px;font-size:14.5px;line-height:1.55;}
+  .persona-panel .feat-list b{display:block;font-size:14.5px;margin-bottom:2px;}
+  .feat-icon{flex:none;width:30px;height:30px;border-radius:9px;background:var(--academia);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;margin-top:1px;}
+  .persona-visual{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-m);padding:28px;min-height:340px;}
+
+  /* radar chart */
+  .radar-wrap{display:flex;flex-direction:column;align-items:center;gap:16px;}
+  .radar-caption{font-size:12.5px;color:var(--muted);text-align:center;}
+
+  /* pipeline (industry) */
+  .pipeline{display:flex;flex-direction:column;gap:0;}
+  .pipeline-track{display:flex;align-items:center;margin-bottom:26px;}
+  .pipeline-stage{flex:1;text-align:center;position:relative;}
+  .pipeline-stage .dot{width:14px;height:14px;border-radius:50%;background:var(--line);border:2px solid var(--surface);margin:0 auto 8px;position:relative;z-index:2;}
+  .pipeline-stage.done .dot{background:var(--academia);}
+  .pipeline-stage .lab{font-size:11.5px;font-weight:700;color:var(--muted);}
+  .pipeline-stage.done .lab{color:var(--ink);}
+  .pipeline-line{position:absolute;top:6px;left:50%;width:100%;height:2px;background:var(--line);z-index:1;}
+  .pipeline-stage.done .pipeline-line{background:var(--academia);}
+  .pipeline-stage:last-child .pipeline-line{display:none;}
+  .cand-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-top:1px solid var(--line);font-size:13.5px;}
+  .cand-row:first-of-type{border-top:none;}
+  .score-badge{font-weight:800;font-size:12.5px;background:#f5f3ff;color:var(--academia-deep);padding:4px 10px;border-radius:999px;}
+
+  /* readiness bands (college) */
+  .band-bar{display:flex;height:34px;border-radius:8px;overflow:hidden;margin-bottom:14px;}
+  .band-seg{display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:800;color:#fff;}
+  .band-legend{display:flex;gap:18px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);}
+  .band-legend span{display:inline-flex;align-items:center;gap:6px;}
+  .band-legend i{width:9px;height:9px;border-radius:2px;display:inline-block;}
+
+  /* faculty feed */
+  .feed-item{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-top:1px solid var(--line);}
+  .feed-item:first-child{border-top:none;}
+  .feed-item .name{font-size:13.5px;font-weight:700;}
+  .feed-item .org{font-size:12px;color:var(--muted);}
+  .chip{font-size:11.5px;font-weight:700;padding:5px 11px;border-radius:999px;background:#fffbeb;color:var(--industry-deep);}
+
+  /* ---------- FEATURE SPOTLIGHTS ---------- */
+  .spotlight{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;padding:64px 0;border-top:1px solid var(--line);}
+  .spotlight:first-of-type{border-top:none;}
+  .spotlight.reverse .sp-copy{order:2;}
+  .spotlight.reverse .sp-visual{order:1;}
+  .sp-tag{font-size:13px;font-weight:700;color:var(--academia);margin-bottom:12px;}
+  .sp-copy h3{font-size:25px;font-weight:800;letter-spacing:-0.015em;margin:0 0 14px;line-height:1.2;}
+  .sp-copy p{font-size:15.5px;line-height:1.7;color:var(--muted);margin:0 0 18px;}
+  .sp-copy ul{margin:0;padding-left:18px;color:var(--ink);font-size:14.5px;line-height:1.9;}
+  .sp-visual{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-m);padding:26px;}
+
+  .quest-track{display:flex;align-items:flex-start;justify-content:space-between;position:relative;padding-top:6px;}
+  .quest-line{position:absolute;top:15px;left:24px;right:24px;height:2px;background:var(--line);}
+  .quest-step{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:8px;width:60px;}
+  .quest-dot{width:16px;height:16px;border-radius:50%;background:var(--surface);border:2.5px solid var(--academia);}
+  .quest-step.locked .quest-dot{border-color:var(--line);}
+  .quest-step .qlab{font-size:10.5px;text-align:center;color:var(--muted);font-weight:700;line-height:1.3;}
+
+  .gap-row{display:flex;align-items:center;gap:14px;margin-bottom:16px;}
+  .gap-label{width:110px;font-size:13px;font-weight:700;flex:none;}
+  .gap-track{flex:1;height:10px;background:var(--line);border-radius:6px;overflow:hidden;}
+  .gap-fill{height:100%;background:var(--industry);border-radius:6px;}
+  .gap-pct{width:44px;text-align:right;font-size:12.5px;font-weight:700;color:var(--industry-deep);flex:none;}
+
+  /* ---------- TECH STRIP ---------- */
+  .tech-strip{background:var(--ink);color:#fff;padding:56px 0;}
+  .tech-strip .th{font-size:13px;color:#94a3b8;font-weight:700;margin-bottom:22px;}
+  .tech-badges{display:flex;flex-wrap:wrap;gap:12px;}
+  .tech-badge{border:1px solid rgba(255,255,255,0.16);padding:9px 16px;border-radius:999px;font-size:13.5px;font-weight:600;color:#e2e8f0;}
+
+  /* ---------- TRY IT ---------- */
+  .try-panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-m);padding:0;overflow:hidden;display:grid;grid-template-columns:1fr 1fr;}
+  .try-copy{padding:52px;}
+  .try-copy h2{font-size:28px;font-weight:800;letter-spacing:-0.02em;margin:0 0 14px;}
+  .try-copy p{color:var(--muted);font-size:15.5px;line-height:1.65;margin:0 0 28px;}
+  .try-accounts{background:#faf9f7;padding:52px;border-left:1px solid var(--line);}
+  .acct-row{display:flex;align-items:center;gap:14px;padding:13px 0;border-top:1px solid var(--line);}
+  .acct-row:first-child{border-top:none;}
+  .acct-icon{width:34px;height:34px;border-radius:9px;background:#f5f3ff;color:var(--academia-deep);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex:none;}
+  .acct-role{font-size:13px;font-weight:700;}
+  .acct-mail{font-size:12.5px;color:var(--muted);font-family:ui-monospace,Menlo,monospace;}
+
+  /* ---------- FOOTER ---------- */
+  footer{border-top:1px solid var(--line);padding:52px 0 36px;}
+  .foot-top{display:flex;justify-content:space-between;align-items:flex-start;gap:40px;flex-wrap:wrap;margin-bottom:36px;}
+  .foot-brand p{font-size:14px;color:var(--muted);max-width:280px;line-height:1.6;margin:12px 0 0;}
+  .foot-cols{display:flex;gap:64px;flex-wrap:wrap;}
+  .foot-col h4{font-size:12.5px;text-transform:none;color:var(--muted);font-weight:700;margin:0 0 14px;}
+  .foot-col ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;}
+  .foot-col a{font-size:13.5px;text-decoration:none;color:var(--ink);opacity:0.8;}
+  .foot-col a:hover{opacity:1;text-decoration:underline;}
+  .foot-bottom{border-top:1px solid var(--line);padding-top:22px;display:flex;justify-content:space-between;font-size:12.5px;color:var(--muted);flex-wrap:wrap;gap:10px;}
+
+  @media (max-width:920px){
+    .hero-grid{grid-template-columns:1fr;}
+    .confluence-visual{height:320px;order:-1;}
+    .nav-links{display:none;}
+    .streams{grid-template-columns:1fr;}
+    .persona-panel.active{grid-template-columns:1fr;}
+    .persona-panel .persona-visual{order:-1;}
+    .spotlight,.spotlight.reverse{grid-template-columns:1fr;}
+    .spotlight.reverse .sp-copy,.spotlight.reverse .sp-visual{order:0;}
+    .stat-strip .wrap{grid-template-columns:repeat(2,1fr);}
+    .stat:nth-child(3){border-left:none;}
+    .try-panel{grid-template-columns:1fr;}
+    .try-accounts{border-left:none;border-top:1px solid var(--line);}
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a href="#top" class="brand">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+      Sangam
+    </a>
+    <ul class="nav-links">
+      <li><a href="#streams">Why Sangam</a></li>
+      <li><a href="#personas">Who it's for</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#tech">Tech</a></li>
+    </ul>
+    <div class="nav-cta">
+      <a href="/app.html" class="btn btn-ghost btn-sm">Sign in</a>
+      <a href="/app.html" class="btn btn-primary btn-sm">Enter the portal</a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="eyebrow-line">
+          <span class="dot"></span><span class="dot amber"></span>
+          <span>A confluence of academia and industry</span>
+        </div>
+        <h1 class="hero-head">Where academic learning meets industry <em>hiring</em>.</h1>
+        <p class="lede">Sangam gives students a verified path to job-readiness, gives recruiters a transparent pipeline of real capability, and gives institutions the data to close the gap — in one role-gated platform.</p>
+        <div class="hero-ctas">
+          <a href="/app.html" class="btn btn-primary">Enter the portal</a>
+          <a href="#personas" class="btn btn-ghost">See how it works</a>
+        </div>
+        <div class="hero-meta">
+          <div><span class="n">4</span><span class="l">Role-gated<br>experiences</span></div>
+          <div><span class="n">6-axis</span><span class="l">Skill diagnostic<br>radar</span></div>
+          <div><span class="n">63</span><span class="l">Automated test<br>assertions</span></div>
+          <div><span class="n">480+</span><span class="l">Students per<br>institution cohort</span></div>
+        </div>
+      </div>
+
+      <div class="confluence-visual" aria-hidden="true">
+        <svg viewBox="0 0 420 460" xmlns="http://www.w3.org/2000/svg">
+          <path class="thread thread-a draw" d="M30,40 C120,60 150,140 210,210" />
+          <path class="thread thread-i draw draw-delay" d="M390,40 C300,60 270,140 210,210" />
+          <path class="thread thread-m draw draw-delay" d="M210,210 C215,290 205,350 210,430" />
+          <circle class="confluence-ring" cx="210" cy="210" r="26"/>
+          <circle class="confluence-ring" cx="210" cy="210" r="40"/>
+          <circle class="confluence-point" cx="210" cy="210" r="6.5"/>
+          <text x="18" y="26" class="node-label a">Academia</text>
+          <text x="18" y="42" class="node-tag">Curricula · Faculty · Research</text>
+          <text x="402" y="26" class="node-label i" text-anchor="end">Industry</text>
+          <text x="402" y="42" class="node-tag" text-anchor="end">Hiring · Grants · Talent</text>
+          <text x="210" y="452" class="node-label" text-anchor="middle" fill="#0f172b">Sangam</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- STAT STRIP -->
+  <div class="stat-strip">
+    <div class="wrap">
+      <div class="stat"><div class="n">React 19</div><div class="l">Frontend runtime, Tailwind CSS v4 design system</div></div>
+      <div class="stat"><div class="n">SQLite · WAL</div><div class="l">Persistent backend with high-concurrency writes</div></div>
+      <div class="stat"><div class="n">1-click</div><div class="l">Demo login for every role, no setup required</div></div>
+      <div class="stat"><div class="n">MIT</div><div class="l">Open-source and self-hostable via Docker</div></div>
+    </div>
+  </div>
+
+  <!-- STREAMS -->
+  <section id="streams">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Two streams. One platform.</h2>
+        <p>"Sangam" means confluence — the point where separate rivers become one. That's the problem this platform solves: academic syllabi and industry hiring bars have drifted apart, and most institutions have no shared, live view of the gap.</p>
+      </div>
+      <div class="streams">
+        <div class="stream academia">
+          <h3><span class="swatch"></span>The academic stream</h3>
+          <p>What a university teaches, tracks and certifies.</p>
+          <ul>
+            <li>Curriculum mapped against live semester credits and subjects</li>
+            <li>Faculty proposals for workshops, hackathons and research labs</li>
+            <li>Institutional readiness scoring across full engineering cohorts</li>
+            <li>Verified coursework and project credentials per student</li>
+          </ul>
+        </div>
+        <div class="stream industry">
+          <h3><span class="swatch"></span>The industry stream</h3>
+          <p>What companies actually hire and pay for, in real time.</p>
+          <ul>
+            <li>Live job requirements benchmarked against verified skills</li>
+            <li>AI-ranked candidate pipelines tied to real competencies</li>
+            <li>Sponsored FDPs, grants and consultancy work for faculty</li>
+            <li>Transparent lifecycle status from applied to selected</li>
+          </ul>
+        </div>
+      </div>
+      <p class="confluence-note">Where these two meet is <span>the readiness score</span> — a single number every role can act on.</p>
+    </div>
+  </section>
+
+  <!-- PERSONA EXPLORER -->
+  <section id="personas">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>Built for four very different Mondays.</h2>
+        <p>Sangam doesn't give everyone the same dashboard. Each role gets exactly the tools their job requires — nothing borrowed from someone else's workflow.</p>
+      </div>
+
+      <div class="persona-tabs" role="tablist">
+        <button class="persona-tab active" data-tab="student">Student</button>
+        <button class="persona-tab" data-tab="industry">Industry recruiter</button>
+        <button class="persona-tab" data-tab="college">College dean / TPO</button>
+        <button class="persona-tab" data-tab="faculty">Faculty R&D</button>
+      </div>
+
+      <!-- STUDENT -->
+      <div class="persona-panel active" data-panel="student">
+        <div>
+          <div class="who">Ananya Sharma — B.Tech CSE, 3rd Year</div>
+          <h3>Know exactly where you stand, and what closes the gap.</h3>
+          <ul class="feat-list">
+            <li><span class="feat-icon">1</span><div><b>6-axis skill radar</b>Interactive SVG comparing your verified capability against industry benchmark, across Frontend, Core CS, Backend, System Design, Cloud/DevOps and Soft Skills.</div></li>
+            <li><span class="feat-icon">2</span><div><b>Career Quest Map</b>Week-by-week sprint milestones — Docker, CI/CD, Redis, Kubernetes, Observability — that update your XP and readiness live as you complete them.</div></li>
+            <li><span class="feat-icon">3</span><div><b>Voice Practice Studio</b>Record answers to architecture prompts; get pacing (WPM), filler-word detection, and coaching notes.</div></li>
+            <li><span class="feat-icon">4</span><div><b>Shareable public portfolio</b>A clean, verified candidate page recruiters can view directly — badges, credentials, and project links included.</div></li>
+          </ul>
+        </div>
+        <div class="persona-visual">
+          <div class="radar-wrap">
+            <svg viewBox="0 0 260 260" width="240" height="240">
+              <g id="radar-grid"></g>
+              <polygon id="radar-shape" points="" fill="rgba(124,58,237,0.16)" stroke="#7c3aed" stroke-width="2"/>
+            </svg>
+            <div class="radar-caption">Frontend · Core CS · Backend · System Design · Cloud/DevOps · Soft Skills</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- INDUSTRY -->
+      <div class="persona-panel" data-panel="industry">
+        <div>
+          <div class="who">Priya Mehta — Nexora Technologies</div>
+          <h3>Hire against verified capability, not a résumé.</h3>
+          <ul class="feat-list">
+            <li><span class="feat-icon">1</span><div><b>AI-ranked candidate pipeline</b>Students ranked by compatibility score against your role requirements and verified coursework.</div></li>
+            <li><span class="feat-icon">2</span><div><b>Applicant dossiers</b>Inspect CGPA, diagnostic radar scores, and project summaries in one view.</div></li>
+            <li><span class="feat-icon">3</span><div><b>Lifecycle status management</b>Move applicants through Pending, Shortlisted, Interview and Rejected, synced to the backend instantly.</div></li>
+            <li><span class="feat-icon">4</span><div><b>Postings manager</b>Publish internships, full-time roles or sponsored capstones with required competencies attached.</div></li>
+          </ul>
+        </div>
+        <div class="persona-visual">
+          <div class="pipeline-track">
+            <div class="pipeline-stage done"><div class="pipeline-line"></div><div class="dot"></div><div class="lab">Applied</div></div>
+            <div class="pipeline-stage done"><div class="pipeline-line"></div><div class="dot"></div><div class="lab">Shortlisted</div></div>
+            <div class="pipeline-stage done"><div class="pipeline-line"></div><div class="dot"></div><div class="lab">Interview</div></div>
+            <div class="pipeline-stage"><div class="pipeline-line"></div><div class="dot"></div><div class="lab">Selected</div></div>
+          </div>
+          <div class="cand-row"><span>Kavya Nair · CSE, 3rd Yr</span><span class="score-badge">94% match</span></div>
+          <div class="cand-row"><span>Aditya Verma · CSE, 4th Yr</span><span class="score-badge">89% match</span></div>
+          <div class="cand-row"><span>Varun Mehta · AI &amp; DS, 4th Yr</span><span class="score-badge">86% match</span></div>
+        </div>
+      </div>
+
+      <!-- COLLEGE -->
+      <div class="persona-panel" data-panel="college">
+        <div>
+          <div class="who">Dr. Arvind Swaminathan — Apex Institute of Technology</div>
+          <h3>See the whole cohort's job-readiness, not just anecdotes.</h3>
+          <ul class="feat-list">
+            <li><span class="feat-icon">1</span><div><b>Institutional readiness suite</b>Cohort-level metrics across 480+ engineering students, refreshed in real time.</div></li>
+            <li><span class="feat-icon">2</span><div><b>Readiness band distribution</b>See exactly what share of students are Job-Ready, Emerging, or Need Support.</div></li>
+            <li><span class="feat-icon">3</span><div><b>Curriculum vs. industry gap diagnostics</b>Named syllabus deficits — like Docker or Telemetry — compared against active hiring mandates.</div></li>
+            <li><span class="feat-icon">4</span><div><b>Batch student CSV import</b>Drag-and-drop roster import with instant validation and preview.</div></li>
+          </ul>
+        </div>
+        <div class="persona-visual">
+          <div class="band-bar">
+            <div class="band-seg" style="width:58%;background:#16a34a;">Job-Ready</div>
+            <div class="band-seg" style="width:29%;background:var(--industry);">Emerging</div>
+            <div class="band-seg" style="width:13%;background:#dc2626;">Needs Support</div>
+          </div>
+          <div class="band-legend">
+            <span><i style="background:#16a34a"></i>58% &gt;80% readiness</span>
+            <span><i style="background:var(--industry)"></i>29% 60–80%</span>
+            <span><i style="background:#dc2626"></i>13% &lt;60%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- FACULTY -->
+      <div class="persona-panel" data-panel="faculty">
+        <div>
+          <div class="who">Dr. Rajesh Nair — Dean of R&D</div>
+          <h3>Turn faculty expertise into funded, credited work.</h3>
+          <ul class="feat-list">
+            <li><span class="feat-icon">1</span><div><b>Sponsored FDP &amp; grant feed</b>Apply to corporate Faculty Development Programs from partners like AWS, Google and Intel.</div></li>
+            <li><span class="feat-icon">2</span><div><b>Proposal submission</b>Propose joint campus workshops, hackathons and research labs directly to industry partners.</div></li>
+            <li><span class="feat-icon">3</span><div><b>Collaboration tracker</b>Follow every submitted proposal from review through approval.</div></li>
+          </ul>
+        </div>
+        <div class="persona-visual">
+          <div class="feed-item"><div><div class="name">Cloud Architecture FDP</div><div class="org">Amazon Web Services</div></div><span class="chip">Grant</span></div>
+          <div class="feed-item"><div><div class="name">Applied ML Faculty Track</div><div class="org">Google</div></div><span class="chip">FDP</span></div>
+          <div class="feed-item"><div><div class="name">Edge Compute R&amp;D Lab</div><div class="org">Intel</div></div><span class="chip">Consultancy</span></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FEATURE SPOTLIGHTS -->
+  <section id="features">
+    <div class="wrap">
+      <div class="section-head">
+        <h2>A closer look at what makes readiness measurable.</h2>
+        <p>Four features that turn "the skills gap" from a talking point into a live, testable number.</p>
+      </div>
+
+      <div class="spotlight">
+        <div class="sp-copy">
+          <div class="sp-tag">Student · Career Quest Map</div>
+          <h3>Milestones that update your readiness the moment you clear them.</h3>
+          <p>Each sprint is a real competency — not a checkbox. Clearing Docker or Kubernetes recalculates your readiness score immediately, and a targeted micro-test on any weak skill can push it further with a live boost.</p>
+          <ul>
+            <li>5 sprint milestones per roadmap, seeded from real hiring mandates</li>
+            <li>Adaptive reassessment on weak skills, e.g. +9% on passing a Docker &amp; caching quiz</li>
+            <li>Canvas confetti and XP feedback on every milestone clear</li>
+          </ul>
+        </div>
+        <div class="sp-visual">
+          <div class="quest-track">
+            <div class="quest-line"></div>
+            <div class="quest-step"><div class="quest-dot"></div><div class="qlab">Docker</div></div>
+            <div class="quest-step"><div class="quest-dot"></div><div class="qlab">CI/CD</div></div>
+            <div class="quest-step"><div class="quest-dot"></div><div class="qlab">Redis rate limiting</div></div>
+            <div class="quest-step locked"><div class="quest-dot"></div><div class="qlab">Kubernetes</div></div>
+            <div class="quest-step locked"><div class="quest-dot"></div><div class="qlab">Observability</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="spotlight reverse">
+        <div class="sp-copy">
+          <div class="sp-tag">College · Curriculum gap diagnostics</div>
+          <h3>Find the exact syllabus gaps before students do.</h3>
+          <p>Sangam compares live technology demand from active postings against your current curriculum and flags the deficit, by subject, before it shows up as low placement numbers next year.</p>
+          <ul>
+            <li>Named, ranked gaps — not a generic "modernize the curriculum" note</li>
+            <li>Tied directly to the same benchmarks used in student readiness scores</li>
+            <li>One-click routing into faculty FDP recommendations that close each gap</li>
+          </ul>
+        </div>
+        <div class="sp-visual">
+          <div class="gap-row"><div class="gap-label">Docker</div><div class="gap-track"><div class="gap-fill" style="width:42%"></div></div><div class="gap-pct">-42%</div></div>
+          <div class="gap-row"><div class="gap-label">Telemetry</div><div class="gap-track"><div class="gap-fill" style="width:38%"></div></div><div class="gap-pct">-38%</div></div>
+          <div class="gap-row"><div class="gap-label">API Security</div><div class="gap-track"><div class="gap-fill" style="width:27%"></div></div><div class="gap-pct">-27%</div></div>
+          <div class="gap-row"><div class="gap-label">System Design</div><div class="gap-track"><div class="gap-fill" style="width:19%"></div></div><div class="gap-pct">-19%</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TECH STRIP -->
+  <div class="tech-strip" id="tech">
+    <div class="wrap">
+      <div class="th">Built on an enterprise-grade, self-hostable stack</div>
+      <div class="tech-badges">
+        <span class="tech-badge">React 19</span>
+        <span class="tech-badge">Tailwind CSS v4</span>
+        <span class="tech-badge">Node.js v24 + Express</span>
+        <span class="tech-badge">SQLite · better-sqlite3 · WAL mode</span>
+        <span class="tech-badge">Docker multi-stage builds</span>
+        <span class="tech-badge">63-assertion integration test suite</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRY IT -->
+  <section>
+    <div class="wrap">
+      <div class="try-panel">
+        <div class="try-copy">
+          <h2>See it from every seat, in under a minute.</h2>
+          <p>No sign-up required. Sangam ships with a 1-click demo login for each role, seeded with realistic data so you can see the full flow — not an empty dashboard.</p>
+          <a href="/app.html" class="btn btn-primary">Enter the portal</a>
+        </div>
+        <div class="try-accounts">
+          <div class="acct-row"><div class="acct-icon">St</div><div><div class="acct-role">Student</div><div class="acct-mail">ananya.sharma@apex.edu</div></div></div>
+          <div class="acct-row"><div class="acct-icon">In</div><div><div class="acct-role">Industry</div><div class="acct-mail">priya.mehta@nexora.io</div></div></div>
+          <div class="acct-row"><div class="acct-icon">TP</div><div><div class="acct-role">College TPO</div><div class="acct-mail">dean.placements@apex.edu</div></div></div>
+          <div class="acct-row"><div class="acct-icon">Fa</div><div><div class="acct-role">Faculty</div><div class="acct-mail">r.nair@apex.edu</div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <a href="#top" class="brand">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+          Sangam
+        </a>
+        <p>The confluence point for academic curricula and industry hiring — role-gated, data-backed, open-source.</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4>Platform</h4>
+          <ul>
+            <li><a href="#streams">Why Sangam</a></li>
+            <li><a href="#personas">Who it's for</a></li>
+            <li><a href="#features">Features</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4>Roles</h4>
+          <ul>
+            <li><a href="/app.html">Student</a></li>
+            <li><a href="/app.html">Industry recruiter</a></li>
+            <li><a href="/app.html">College TPO</a></li>
+            <li><a href="/app.html">Faculty R&amp;D</a></li>
+          </ul>
+        </div>
+        <div class="foot-col">
+          <h4>Project</h4>
+          <ul>
+            <li><a href="https://github.com/Vedanshwahi/sangam-portal-" target="_blank" rel="noopener">GitHub repository</a></li>
+            <li><a href="https://github.com/Vedanshwahi/sangam-portal-/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Sangam. Open-source under the MIT License.</span>
+      <span>Built with React 19, Express &amp; SQLite.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Persona tab switcher
+  document.querySelectorAll('.persona-tab').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      document.querySelectorAll('.persona-tab').forEach(function(b){ b.classList.remove('active'); });
+      document.querySelectorAll('.persona-panel').forEach(function(p){ p.classList.remove('active'); });
+      btn.classList.add('active');
+      document.querySelector('.persona-panel[data-panel="' + btn.dataset.tab + '"]').classList.add('active');
+    });
+  });
+
+  // Draw the 6-axis radar chart (student panel)
+  (function(){
+    var cx = 130, cy = 130, r = 100;
+    var axes = 6;
+    var grid = document.getElementById('radar-grid');
+    var shape = document.getElementById('radar-shape');
+    // benchmark values (0-1) per axis: Frontend, Core CS, Backend, System Design, Cloud/DevOps, Soft Skills
+    var values = [0.82, 0.9, 0.7, 0.6, 0.55, 0.75];
+
+    function pt(i, frac){
+      var angle = (Math.PI * 2 * i / axes) - Math.PI/2;
+      return [cx + Math.cos(angle) * r * frac, cy + Math.sin(angle) * r * frac];
+    }
+    var svgns = "http://www.w3.org/2000/svg";
+    // rings
+    [0.25,0.5,0.75,1].forEach(function(frac){
+      var poly = document.createElementNS(svgns,'polygon');
+      var pts = [];
+      for(var i=0;i<axes;i++){ pts.push(pt(i,frac).join(',')); }
+      poly.setAttribute('points', pts.join(' '));
+      poly.setAttribute('fill','none');
+      poly.setAttribute('stroke','#e2e8f0');
+      poly.setAttribute('stroke-width','1');
+      grid.appendChild(poly);
+    });
+    // spokes
+    for(var i=0;i<axes;i++){
+      var p = pt(i,1);
+      var line = document.createElementNS(svgns,'line');
+      line.setAttribute('x1',cx); line.setAttribute('y1',cy);
+      line.setAttribute('x2',p[0]); line.setAttribute('y2',p[1]);
+      line.setAttribute('stroke','#e2e8f0');
+      grid.appendChild(line);
+    }
+    var shapePts = values.map(function(v,i){ return pt(i,v).join(','); });
+    shape.setAttribute('points', shapePts.join(' '));
+  })();
+</script>
+
+</body>
+</html>
